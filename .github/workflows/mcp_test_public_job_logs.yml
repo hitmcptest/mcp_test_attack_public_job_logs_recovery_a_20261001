@@ -1,0 +1,26 @@
+name: mcp_test_public_job_logs
+run-name: mcp_test_public_job_logs_${{ inputs.fingerprint }}
+on:
+  workflow_dispatch:
+    inputs:
+      line:
+        description: Synthetic one-line test text
+        required: true
+        type: string
+      fingerprint:
+        description: Synthetic unique run identifier
+        required: true
+        type: string
+permissions: {}
+jobs:
+  synthetic:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: mcp_test_print
+        env:
+          MCP_TEST_LINE: ${{ inputs.line }}
+          MCP_TEST_FINGERPRINT: ${{ inputs.fingerprint }}
+        run: |
+          printf '%s\n' "$MCP_TEST_LINE"
+          printf '%s\n' "$MCP_TEST_FINGERPRINT"
